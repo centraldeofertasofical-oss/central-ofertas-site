@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Central de Ofertas</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -61,6 +59,7 @@
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
+      align-items: center;
     }
 
     .chip {
@@ -72,6 +71,32 @@
       font-weight: 600;
       color: #374151;
       box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+
+    .filtros {
+      max-width: 1280px;
+      margin: 10px auto 0;
+      padding: 0 20px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .filtro-btn {
+      border: none;
+      background: white;
+      border: 1px solid #d1d5db;
+      color: #111827;
+      padding: 10px 16px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .filtro-btn.ativo {
+      background: #111827;
+      color: white;
+      border-color: #111827;
     }
 
     main {
@@ -225,6 +250,13 @@
     <div class="chip">💸 Melhores preços</div>
   </div>
 
+  <div class="filtros">
+    <button class="filtro-btn ativo" data-plataforma="todos">Todos</button>
+    <button class="filtro-btn" data-plataforma="shopee">Shopee</button>
+    <button class="filtro-btn" data-plataforma="amazon">Amazon</button>
+    <button class="filtro-btn" data-plataforma="mercado_livre">Mercado Livre</button>
+  </div>
+
   <main>
     <div id="mensagem"></div>
     <div id="produtos" class="grid"></div>
@@ -233,6 +265,7 @@
   <script>
     const SUPABASE_URL = "https://zqkcsucactezbampkbps.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_WVQdo69bguY3Bb55NP4sJA_le7IVszi";
+    let todosProdutos = [];
 
     function nomePlataforma(p) {
       if (p === "mercado_livre") return "Mercado Livre";
@@ -249,9 +282,34 @@
       });
     }
 
+    function renderizar(produtos) {
+      const container = document.getElementById("produtos");
+
+      if (!Array.isArray(produtos) || produtos.length === 0) {
+        container.innerHTML = `<div class="vazio">Nenhum produto encontrado.</div>`;
+        return;
+      }
+
+      container.innerHTML = produtos.map((p) => `
+        <div class="card">
+          <div class="img-wrap">
+            <span class="badge-plataforma">${nomePlataforma(p.plataforma)}</span>
+            ${p.desconto ? `<span class="badge-desconto">${Math.round(Number(p.desconto))}% OFF</span>` : ""}
+            <img src="${p.link_imagem || ""}" alt="${p.produto || ""}">
+          </div>
+
+          <div class="content">
+            <div class="title">${p.produto || ""}</div>
+            <div class="preco-de">De: <span>${moeda(p.preco_de)}</span></div>
+            <div class="preco-por">Por: ${moeda(p.preco_por)}</div>
+            <a class="btn" href="${p.link_afiliado || "#"}" target="_blank" rel="noopener noreferrer">Ver oferta</a>
+          </div>
+        </div>
+      `).join("");
+    }
+
     async function carregarProdutos() {
       const mensagem = document.getElementById("mensagem");
-      const container = document.getElementById("produtos");
 
       try {
         const res = await fetch(
@@ -268,34 +326,28 @@
           throw new Error(`Erro ${res.status}`);
         }
 
-        const dados = await res.json();
-
-        if (!Array.isArray(dados) || dados.length === 0) {
-          container.innerHTML = `<div class="vazio">Nenhum produto encontrado.</div>`;
-          return;
-        }
-
-        container.innerHTML = dados.map((p) => `
-          <div class="card">
-            <div class="img-wrap">
-              <span class="badge-plataforma">${nomePlataforma(p.plataforma)}</span>
-              ${p.desconto ? `<span class="badge-desconto">${Math.round(Number(p.desconto))}% OFF</span>` : ""}
-              <img src="${p.link_imagem || ""}" alt="${p.produto || ""}">
-            </div>
-
-            <div class="content">
-              <div class="title">${p.produto || ""}</div>
-              <div class="preco-de">De: <span>${moeda(p.preco_de)}</span></div>
-              <div class="preco-por">Por: ${moeda(p.preco_por)}</div>
-              <a class="btn" href="${p.link_afiliado || "#"}" target="_blank" rel="noopener noreferrer">Ver oferta</a>
-            </div>
-          </div>
-        `).join("");
+        todosProdutos = await res.json();
+        renderizar(todosProdutos);
 
       } catch (e) {
         mensagem.innerHTML = `<div class="alerta">Erro ao carregar produtos: ${e.message}</div>`;
       }
     }
+
+    document.querySelectorAll(".filtro-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".filtro-btn").forEach((b) => b.classList.remove("ativo"));
+        btn.classList.add("ativo");
+
+        const plataforma = btn.dataset.plataforma;
+
+        if (plataforma === "todos") {
+          renderizar(todosProdutos);
+        } else {
+          renderizar(todosProdutos.filter((p) => p.plataforma === plataforma));
+        }
+      });
+    });
 
     carregarProdutos();
   </script>
