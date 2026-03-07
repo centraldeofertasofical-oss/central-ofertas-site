@@ -5,79 +5,249 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Central de Ofertas</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
       margin: 0;
-      padding: 24px;
+      font-family: Arial, sans-serif;
+      background: #f6f7fb;
+      color: #1f2937;
     }
-    h1 {
-      margin: 0 0 24px;
+
+    header {
+      background: linear-gradient(135deg, #ffcc00, #ffdb4d);
+      color: #111827;
+      padding: 22px 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      border-bottom: 1px solid rgba(0,0,0,0.08);
     }
+
+    .header-wrap {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      width: 78px;
+      height: 78px;
+      object-fit: cover;
+      border-radius: 50%;
+      background: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+
+    .brand-text h1 {
+      margin: 0;
+      font-size: 34px;
+      line-height: 1.1;
+    }
+
+    .sub {
+      margin-top: 6px;
+      font-size: 15px;
+      opacity: 0.9;
+    }
+
+    .topbar {
+      max-width: 1280px;
+      margin: 20px auto 0;
+      padding: 0 20px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      background: white;
+      border: 1px solid #e5e7eb;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #374151;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+
+    main {
+      max-width: 1280px;
+      margin: 24px auto;
+      padding: 0 20px 40px;
+    }
+
+    .alerta {
+      background: #fff3f3;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+      padding: 14px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 18px;
     }
+
     .card {
       background: #fff;
-      border-radius: 12px;
-      padding: 14px;
-      box-shadow: 0 2px 10px rgba(0,0,0,.06);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+      border: 1px solid #edf0f5;
+      display: flex;
+      flex-direction: column;
+      transition: transform .15s ease, box-shadow .15s ease;
     }
-    .card img {
-      width: 100%;
-      border-radius: 10px;
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.10);
+    }
+
+    .img-wrap {
+      position: relative;
+      background: #fff;
+      padding: 10px;
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .img-wrap img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
       display: block;
-      margin-bottom: 12px;
     }
-    .card h3 {
-      font-size: 16px;
-      line-height: 1.35;
-      margin: 0 0 10px;
-    }
-    .preco-de {
-      color: #666;
-      margin: 0 0 6px;
-    }
-    .preco-por {
-      font-size: 18px;
-      font-weight: bold;
-      margin: 0 0 12px;
-    }
-    .plataforma {
-      font-size: 12px;
-      color: #666;
-      margin-bottom: 10px;
+
+    .badge-plataforma {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(17,24,39,0.88);
+      color: white;
+      font-size: 11px;
+      padding: 6px 8px;
+      border-radius: 999px;
       text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: .3px;
     }
+
+    .badge-desconto {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #16a34a;
+      color: white;
+      font-size: 12px;
+      padding: 6px 8px;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+
+    .content {
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .title {
+      font-size: 15px;
+      line-height: 1.4;
+      font-weight: 700;
+      min-height: 62px;
+    }
+
+    .preco-de {
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    .preco-de span {
+      text-decoration: line-through;
+    }
+
+    .preco-por {
+      font-size: 24px;
+      font-weight: 800;
+      color: #111827;
+    }
+
     .btn {
-      display: inline-block;
+      margin-top: auto;
+      display: block;
+      text-align: center;
       background: #ff6a00;
-      color: #fff;
+      color: white;
       text-decoration: none;
-      padding: 10px 14px;
-      border-radius: 8px;
-      font-weight: bold;
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-weight: 700;
     }
-    .erro {
-      background: #fff3f3;
-      color: #b00020;
-      border: 1px solid #f3c2c2;
-      padding: 12px;
-      border-radius: 10px;
-      margin-bottom: 20px;
+
+    .btn:hover {
+      background: #e85e00;
+    }
+
+    .vazio {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      padding: 16px;
+      border-radius: 12px;
     }
   </style>
 </head>
 <body>
-  <h1>🔥 Central de Ofertas</h1>
-  <div id="mensagem"></div>
-  <div id="produtos" class="grid"></div>
+  <header>
+    <div class="header-wrap">
+      <img class="logo" src="logo-central-ofertas.JPG" alt="Central de Ofertas">
+      <div class="brand-text">
+        <h1>Central de Ofertas</h1>
+        <div class="sub">Ofertas oficiais e seguras • Shopee • Amazon • Mercado Livre</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="topbar">
+    <div class="chip">🛒 Ofertas recentes</div>
+    <div class="chip">⚡ Atualização automática</div>
+    <div class="chip">💸 Melhores preços</div>
+  </div>
+
+  <main>
+    <div id="mensagem"></div>
+    <div id="produtos" class="grid"></div>
+  </main>
 
   <script>
     const SUPABASE_URL = "https://zqkcsucactezbampkbps.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_WVQdo69bguY3Bb55NP4sJA_le7IVszi";
+
+    function nomePlataforma(p) {
+      if (p === "mercado_livre") return "Mercado Livre";
+      if (p === "amazon") return "Amazon";
+      if (p === "shopee") return "Shopee";
+      return p || "Oferta";
+    }
+
+    function moeda(v) {
+      if (v === null || v === undefined || v === "") return "-";
+      return Number(v).toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+      });
+    }
 
     async function carregarProdutos() {
       const mensagem = document.getElementById("mensagem");
@@ -85,7 +255,7 @@
 
       try {
         const res = await fetch(
-          `${SUPABASE_URL}/rest/v1/produtos?select=*&ativo=eq.true&order=data_publicacao.desc&limit=60`,
+          `${SUPABASE_URL}/rest/v1/produtos?select=*&ativo=eq.true&order=data_publicacao.desc&limit=120`,
           {
             headers: {
               apikey: SUPABASE_ANON_KEY,
@@ -101,22 +271,29 @@
         const dados = await res.json();
 
         if (!Array.isArray(dados) || dados.length === 0) {
-          mensagem.innerHTML = `<div class="erro">Nenhum produto encontrado.</div>`;
+          container.innerHTML = `<div class="vazio">Nenhum produto encontrado.</div>`;
           return;
         }
 
         container.innerHTML = dados.map((p) => `
           <div class="card">
-            <img src="${p.link_imagem || ''}" alt="${p.produto || ''}">
-            <div class="plataforma">${p.plataforma || ''}</div>
-            <h3>${p.produto || ''}</h3>
-            <p class="preco-de">De: R$ ${p.preco_de ?? '-'}</p>
-            <p class="preco-por">Por: R$ ${p.preco_por ?? '-'}</p>
-            <a class="btn" href="${p.link_afiliado || '#'}" target="_blank" rel="noopener noreferrer">Ver oferta</a>
+            <div class="img-wrap">
+              <span class="badge-plataforma">${nomePlataforma(p.plataforma)}</span>
+              ${p.desconto ? `<span class="badge-desconto">${Math.round(Number(p.desconto))}% OFF</span>` : ""}
+              <img src="${p.link_imagem || ""}" alt="${p.produto || ""}">
+            </div>
+
+            <div class="content">
+              <div class="title">${p.produto || ""}</div>
+              <div class="preco-de">De: <span>${moeda(p.preco_de)}</span></div>
+              <div class="preco-por">Por: ${moeda(p.preco_por)}</div>
+              <a class="btn" href="${p.link_afiliado || "#"}" target="_blank" rel="noopener noreferrer">Ver oferta</a>
+            </div>
           </div>
         `).join("");
+
       } catch (e) {
-        mensagem.innerHTML = `<div class="erro">Erro ao carregar produtos: ${e.message}</div>`;
+        mensagem.innerHTML = `<div class="alerta">Erro ao carregar produtos: ${e.message}</div>`;
       }
     }
 
