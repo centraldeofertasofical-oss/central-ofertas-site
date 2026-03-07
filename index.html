@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Central de Ofertas</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 24px;
+    }
+    h1 {
+      margin: 0 0 24px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 14px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.06);
+    }
+    .card img {
+      width: 100%;
+      border-radius: 10px;
+      display: block;
+      margin-bottom: 12px;
+    }
+    .card h3 {
+      font-size: 16px;
+      line-height: 1.35;
+      margin: 0 0 10px;
+    }
+    .preco-de {
+      color: #666;
+      margin: 0 0 6px;
+    }
+    .preco-por {
+      font-size: 18px;
+      font-weight: bold;
+      margin: 0 0 12px;
+    }
+    .plataforma {
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+    .btn {
+      display: inline-block;
+      background: #ff6a00;
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+    .erro {
+      background: #fff3f3;
+      color: #b00020;
+      border: 1px solid #f3c2c2;
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔥 Central de Ofertas</h1>
+  <div id="mensagem"></div>
+  <div id="produtos" class="grid"></div>
+
+  <script>
+    const SUPABASE_URL = "https://zqkcsucactezbampkbps.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_WVQdo69bguY3Bb55NP4sJA_le7IVszi";
+
+    async function carregarProdutos() {
+      const mensagem = document.getElementById("mensagem");
+      const container = document.getElementById("produtos");
+
+      try {
+        const res = await fetch(
+          `${SUPABASE_URL}/rest/v1/produtos?select=*&ativo=eq.true&order=data_publicacao.desc&limit=60`,
+          {
+            headers: {
+              apikey: SUPABASE_ANON_KEY,
+              Authorization: `Bearer ${SUPABASE_ANON_KEY}`
+            }
+          }
+        );
+
+        if (!res.ok) {
+          throw new Error(`Erro ${res.status}`);
+        }
+
+        const dados = await res.json();
+
+        if (!Array.isArray(dados) || dados.length === 0) {
+          mensagem.innerHTML = `<div class="erro">Nenhum produto encontrado.</div>`;
+          return;
+        }
+
+        container.innerHTML = dados.map((p) => `
+          <div class="card">
+            <img src="${p.link_imagem || ''}" alt="${p.produto || ''}">
+            <div class="plataforma">${p.plataforma || ''}</div>
+            <h3>${p.produto || ''}</h3>
+            <p class="preco-de">De: R$ ${p.preco_de ?? '-'}</p>
+            <p class="preco-por">Por: R$ ${p.preco_por ?? '-'}</p>
+            <a class="btn" href="${p.link_afiliado || '#'}" target="_blank" rel="noopener noreferrer">Ver oferta</a>
+          </div>
+        `).join("");
+      } catch (e) {
+        mensagem.innerHTML = `<div class="erro">Erro ao carregar produtos: ${e.message}</div>`;
+      }
+    }
+
+    carregarProdutos();
+  </script>
+</body>
+</html>
