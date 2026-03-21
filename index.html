@@ -7,24 +7,58 @@
   <style>
     * { box-sizing: border-box; }
 
+    :root {
+      --bg: #f6f7fb;
+      --surface: #ffffff;
+      --surface-2: #f9fafb;
+      --text: #111827;
+      --muted: #6b7280;
+      --line: #e5e7eb;
+      --line-soft: #edf0f5;
+      --brand: #ff6a00;
+      --brand-dark: #e85e00;
+      --success: #16a34a;
+      --danger-bg: #fff3f3;
+      --danger-line: #fecaca;
+      --danger-text: #b91c1c;
+      --shadow: 0 8px 24px rgba(0,0,0,0.08);
+      --whatsapp: #25D366;
+      --whatsapp-dark: #1fb657;
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #f6f7fb;
-      color: #1f2937;
+      background: var(--bg);
+      color: var(--text);
     }
+
+    a { color: inherit; }
 
     header {
       background: linear-gradient(135deg, #ffcc00, #ffdb4d);
-      color: #111827;
+      color: var(--text);
       padding: 22px 20px;
       box-shadow: 0 2px 12px rgba(0,0,0,0.08);
       border-bottom: 1px solid rgba(0,0,0,0.08);
     }
 
-    .header-wrap {
+    .header-wrap,
+    .hero,
+    .topbar,
+    .socials-wrap,
+    .grupo-cta-wrap,
+    .filtros,
+    main,
+    footer {
       max-width: 1280px;
-      margin: 0 auto;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    .header-wrap {
       display: flex;
       align-items: center;
       gap: 18px;
@@ -49,13 +83,68 @@
     .sub {
       margin-top: 6px;
       font-size: 15px;
-      opacity: 0.9;
+      opacity: 0.92;
+    }
+
+    .hero {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: 1.3fr .7fr;
+      gap: 16px;
+    }
+
+    .hero-card,
+    .hero-side {
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(17,24,39,0.08);
+      border-radius: 18px;
+      padding: 18px;
+      backdrop-filter: blur(6px);
+    }
+
+    .hero-card h2 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      line-height: 1.15;
+    }
+
+    .hero-card p,
+    .hero-side p {
+      margin: 0;
+      color: #374151;
+      line-height: 1.5;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .pill {
+      background: rgba(255,255,255,0.95);
+      border: 1px solid rgba(17,24,39,0.08);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .hero-side {
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+
+    .hero-side strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 4px;
     }
 
     .topbar {
-      max-width: 1280px;
-      margin: 20px auto 0;
-      padding: 0 20px;
+      margin-top: 20px;
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
@@ -63,8 +152,8 @@
     }
 
     .chip {
-      background: white;
-      border: 1px solid #e5e7eb;
+      background: var(--surface);
+      border: 1px solid var(--line);
       padding: 10px 14px;
       border-radius: 999px;
       font-size: 14px;
@@ -73,45 +162,121 @@
       box-shadow: 0 1px 4px rgba(0,0,0,0.04);
     }
 
+    .chip strong { color: var(--text); }
+
+    .grupo-cta-wrap {
+      margin-top: 16px;
+    }
+
+    .grupo-cta {
+      display: block;
+      width: 100%;
+      text-align: center;
+      background: var(--whatsapp);
+      color: white;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 18px;
+      padding: 16px 18px;
+      border-radius: 14px;
+      box-shadow: 0 8px 20px rgba(37, 211, 102, 0.25);
+      transition: .15s ease;
+    }
+
+    .grupo-cta:hover {
+      background: var(--whatsapp-dark);
+      transform: translateY(-1px);
+    }
+
+    .socials-wrap {
+      margin-top: 14px;
+    }
+
+    .social-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+
+    .social-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--surface);
+      color: var(--text);
+      text-decoration: none;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px 12px;
+      font-weight: 800;
+      text-align: center;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+      transition: .15s ease;
+    }
+
+    .social-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+    }
+
     .filtros {
-      max-width: 1280px;
-      margin: 10px auto 0;
-      padding: 0 20px;
+      margin-top: 18px;
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
     }
 
     .filtro-btn {
-      border: none;
-      background: white;
       border: 1px solid #d1d5db;
-      color: #111827;
+      background: var(--surface);
+      color: var(--text);
       padding: 10px 16px;
       border-radius: 999px;
       cursor: pointer;
       font-weight: 700;
+      transition: .15s ease;
     }
 
+    .filtro-btn:hover { transform: translateY(-1px); }
+
     .filtro-btn.ativo {
-      background: #111827;
+      background: var(--text);
       color: white;
-      border-color: #111827;
+      border-color: var(--text);
     }
 
     main {
-      max-width: 1280px;
-      margin: 24px auto;
-      padding: 0 20px 40px;
+      margin-top: 24px;
+      padding-bottom: 48px;
     }
 
     .alerta {
-      background: #fff3f3;
-      color: #b91c1c;
-      border: 1px solid #fecaca;
+      background: var(--danger-bg);
+      color: var(--danger-text);
+      border: 1px solid var(--danger-line);
       padding: 14px;
       border-radius: 12px;
       margin-bottom: 20px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 0 0 14px;
+    }
+
+    .section-head h3 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .section-head p {
+      margin: 4px 0 0;
+      color: var(--muted);
     }
 
     .grid {
@@ -120,26 +285,32 @@
       gap: 18px;
     }
 
+    .grid.destaques .card {
+      border: 1px solid rgba(255,106,0,0.18);
+      box-shadow: 0 10px 28px rgba(255,106,0,0.08);
+    }
+
     .card {
-      background: #fff;
-      border-radius: 16px;
+      background: var(--surface);
+      border-radius: 18px;
       overflow: hidden;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.06);
-      border: 1px solid #edf0f5;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--line-soft);
       display: flex;
       flex-direction: column;
       transition: transform .15s ease, box-shadow .15s ease;
+      min-height: 100%;
     }
 
     .card:hover {
       transform: translateY(-3px);
-      box-shadow: 0 10px 24px rgba(0,0,0,0.10);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.11);
     }
 
     .img-wrap {
       position: relative;
-      background: #fff;
-      padding: 10px;
+      background: var(--surface);
+      padding: 12px;
       height: 220px;
       display: flex;
       align-items: center;
@@ -153,83 +324,176 @@
       display: block;
     }
 
-    .badge-plataforma {
+    .badge-plataforma,
+    .badge-desconto,
+    .badge-recente {
       position: absolute;
+      font-size: 11px;
+      padding: 6px 8px;
+      border-radius: 999px;
+      font-weight: 700;
+      letter-spacing: .2px;
+    }
+
+    .badge-plataforma {
       top: 10px;
       left: 10px;
       background: rgba(17,24,39,0.88);
       color: white;
-      font-size: 11px;
-      padding: 6px 8px;
-      border-radius: 999px;
       text-transform: uppercase;
-      font-weight: 700;
-      letter-spacing: .3px;
     }
 
     .badge-desconto {
-      position: absolute;
       top: 10px;
       right: 10px;
-      background: #16a34a;
+      background: var(--success);
       color: white;
-      font-size: 12px;
-      padding: 6px 8px;
-      border-radius: 999px;
-      font-weight: 700;
+    }
+
+    .badge-recente {
+      bottom: 10px;
+      left: 10px;
+      background: rgba(255,255,255,0.95);
+      color: var(--text);
+      border: 1px solid rgba(17,24,39,0.08);
     }
 
     .content {
       padding: 14px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
       flex: 1;
     }
 
     .title {
       font-size: 15px;
-      line-height: 1.4;
+      line-height: 1.45;
       font-weight: 700;
-      min-height: 62px;
+      min-height: 64px;
+    }
+
+    .meta-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .meta-pill {
+      background: var(--surface-2);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 8px;
+    }
+
+    .precos {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
 
     .preco-de {
-      color: #6b7280;
+      color: var(--muted);
       font-size: 14px;
     }
 
-    .preco-de span {
-      text-decoration: line-through;
-    }
+    .preco-de span { text-decoration: line-through; }
 
     .preco-por {
-      font-size: 24px;
+      font-size: 25px;
       font-weight: 800;
-      color: #111827;
+      color: var(--text);
+      line-height: 1.1;
     }
 
     .btn {
       margin-top: auto;
       display: block;
       text-align: center;
-      background: #ff6a00;
+      background: var(--brand);
       color: white;
       text-decoration: none;
       padding: 12px 14px;
       border-radius: 12px;
       font-weight: 700;
+      transition: background .15s ease, transform .15s ease;
     }
 
-    .btn:hover {
-      background: #e85e00;
+    .btn:hover { background: var(--brand-dark); transform: translateY(-1px); }
+
+    .btn.disabled {
+      background: #9ca3af;
+      pointer-events: none;
+      cursor: default;
     }
 
     .vazio {
-      background: #fff;
-      border: 1px solid #e5e7eb;
+      background: var(--surface);
+      border: 1px solid var(--line);
       padding: 16px;
       border-radius: 12px;
+      color: var(--muted);
+    }
+
+    .section-block { margin-bottom: 34px; }
+
+    .divider {
+      height: 1px;
+      background: var(--line);
+      margin: 6px 0 28px;
+    }
+
+    footer {
+      padding-top: 6px;
+      padding-bottom: 36px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .grupo-float {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 999;
+      background: var(--whatsapp);
+      color: white;
+      text-decoration: none;
+      font-weight: 800;
+      padding: 14px 18px;
+      border-radius: 999px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+      transition: .15s ease;
+    }
+
+    .grupo-float:hover {
+      background: var(--whatsapp-dark);
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .brand-text h1 { font-size: 30px; }
+    }
+
+    @media (max-width: 560px) {
+      header { padding: 18px 14px; }
+      .header-wrap,
+      .hero,
+      .topbar,
+      .grupo-cta-wrap,
+      .socials-wrap,
+      .filtros,
+      main,
+      footer { padding-left: 14px; padding-right: 14px; }
+
+      .brand-text h1 { font-size: 26px; }
+      .hero-card h2 { font-size: 24px; }
+      .img-wrap { height: 200px; }
+      .preco-por { font-size: 22px; }
+      .grupo-cta { font-size: 16px; padding: 14px 16px; }
+      .grupo-float { right: 14px; bottom: 14px; padding: 12px 16px; font-size: 14px; }
     }
   </style>
 </head>
@@ -242,12 +506,56 @@
         <div class="sub">Ofertas oficiais e seguras • Shopee • Amazon • Mercado Livre</div>
       </div>
     </div>
+
+    <div class="hero">
+      <div class="hero-card">
+        <h2>Achados atualizados automaticamente ao longo do dia</h2>
+        <p>Mostramos apenas ofertas ativas no banco, com destaque para as mais recentes. Itens antigos saem da vitrine automática para o site ficar sempre limpo, rápido e relevante.</p>
+        <div class="hero-meta">
+          <div class="pill">⚡ Atualização automática</div>
+          <div class="pill">🛒 Ofertas do dia</div>
+          <div class="pill">💸 Preços em destaque</div>
+        </div>
+      </div>
+      <div class="hero-side">
+        <div>
+          <strong>Status do catálogo</strong>
+          <p id="status-catalogo">Carregando ofertas...</p>
+        </div>
+        <div>
+          <strong>Última atualização visível</strong>
+          <p id="ultima-atualizacao">Aguardando dados...</p>
+        </div>
+      </div>
+    </div>
   </header>
 
   <div class="topbar">
-    <div class="chip">🛒 Ofertas recentes</div>
-    <div class="chip">⚡ Atualização automática</div>
-    <div class="chip">💸 Melhores preços</div>
+    <div class="chip">📦 <strong id="total-produtos">0</strong> ofertas ativas</div>
+    <div class="chip">🔥 <strong id="total-destaques">0</strong> destaques recentes</div>
+    <div class="chip">🏪 <strong id="plataformas-ativas">0</strong> plataformas com ofertas</div>
+  </div>
+
+  <div class="grupo-cta-wrap">
+    <a
+      class="grupo-cta"
+      href="https://chat.whatsapp.com/K7y2RlgUuAc0Xepn0qHYBD?mode=gi_t"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      🔥 Entrar no Grupo de Ofertas no WhatsApp
+    </a>
+  </div>
+
+  <div class="socials-wrap">
+    <div class="social-grid">
+      <a class="social-btn" href="https://www.instagram.com/centraldeofertas.ofc?igsh=YzNtODMzb3R0eHo5&utm_source=qr" target="_blank" rel="noopener noreferrer">📸 Instagram</a>
+      <a class="social-btn" href="https://www.tiktok.com/@centraldeofertas.oficial?_r=1&_t=ZS-94sdmo91NzT" target="_blank" rel="noopener noreferrer">🎵 TikTok</a>
+      <a class="social-btn" href="https://br.pinterest.com/centraldeofertasofc/" target="_blank" rel="noopener noreferrer">📌 Pinterest</a>
+      <a class="social-btn" href="https://collshp.com/centraldeofertasoficial657?view=storefront" target="_blank" rel="noopener noreferrer">🛍️ Loja</a>
+      <a class="social-btn" href="https://mercadolivre.com/sec/2WuTJob" target="_blank" rel="noopener noreferrer">🟨 Mercado Livre</a>
+      <a class="social-btn" href="https://chat.whatsapp.com/K7y2RlgUuAc0Xepn0qHYBD?mode=gi_t" target="_blank" rel="noopener noreferrer">💬 WhatsApp</a>
+    </div>
   </div>
 
   <div class="filtros">
@@ -259,13 +567,52 @@
 
   <main>
     <div id="mensagem"></div>
-    <div id="produtos" class="grid"></div>
+
+    <section class="section-block">
+      <div class="section-head">
+        <div>
+          <h3>🔥 Destaques</h3>
+          <p>As ofertas mais novas do catálogo ativo.</p>
+        </div>
+      </div>
+      <div id="destaques" class="grid destaques"></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section class="section-block">
+      <div class="section-head">
+        <div>
+          <h3>🛍️ Últimas ofertas</h3>
+          <p id="descricao-lista">Lista completa das ofertas ativas.</p>
+        </div>
+      </div>
+      <div id="produtos" class="grid"></div>
+    </section>
   </main>
+
+  <footer>
+    Central de Ofertas • catálogo alimentado automaticamente a partir da base do projeto.
+  </footer>
+
+  <a
+    class="grupo-float"
+    href="https://chat.whatsapp.com/K7y2RlgUuAc0Xepn0qHYBD?mode=gi_t"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    📲 Entrar no Grupo
+  </a>
 
   <script>
     const SUPABASE_URL = "https://zqkcsucactezbampkbps.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_WVQdo69bguY3Bb55NP4sJA_le7IVszi";
+    const LIMITE_TOTAL = 120;
+    const LIMITE_DESTAQUES = 6;
+    const IMG_FALLBACK = "https://placehold.co/600x600/f6f7fb/6b7280?text=Sem+imagem";
+
     let todosProdutos = [];
+    let filtroAtual = "todos";
 
     function nomePlataforma(p) {
       if (p === "mercado_livre") return "Mercado Livre";
@@ -276,44 +623,168 @@
 
     function moeda(v) {
       if (v === null || v === undefined || v === "") return "-";
-      return Number(v).toLocaleString("pt-BR", {
-        style: "currency",
-        currency: "BRL"
+      const n = Number(v);
+      if (!Number.isFinite(n)) return "-";
+      return n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function valorNumerico(v) {
+      const n = Number(v);
+      return Number.isFinite(n) ? n : null;
+    }
+
+    function descontoValido(v) {
+      const n = valorNumerico(v);
+      return n !== null && n > 0 ? Math.round(n) : null;
+    }
+
+    function temPrecoDe(produto) {
+      const de = valorNumerico(produto.preco_de);
+      const por = valorNumerico(produto.preco_por);
+      return de !== null && por !== null && de > por;
+    }
+
+    function dataSegura(v) {
+      if (!v) return null;
+      const d = new Date(v);
+      return Number.isNaN(d.getTime()) ? null : d;
+    }
+
+    function ehRecente(v) {
+      const d = dataSegura(v);
+      if (!d) return false;
+      return Date.now() - d.getTime() <= 24 * 60 * 60 * 1000;
+    }
+
+    function dataFormatada(v) {
+      const d = dataSegura(v);
+      if (!d) return "Sem data";
+      return d.toLocaleString("pt-BR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
       });
     }
 
-    function renderizar(produtos) {
-      const container = document.getElementById("produtos");
+    function tempoRelativo(v) {
+      const d = dataSegura(v);
+      if (!d) return "Sem data";
+      const diffMin = Math.max(1, Math.round((Date.now() - d.getTime()) / 60000));
+      if (diffMin < 60) return `há ${diffMin} min`;
+      const diffH = Math.round(diffMin / 60);
+      if (diffH < 24) return `há ${diffH} h`;
+      const diffD = Math.round(diffH / 24);
+      return `há ${diffD} dia${diffD > 1 ? "s" : ""}`;
+    }
 
-      if (!Array.isArray(produtos) || produtos.length === 0) {
-        container.innerHTML = `<div class="vazio">Nenhum produto encontrado.</div>`;
-        return;
-      }
+    function plataformaAtiva(lista) {
+      return new Set(lista.map((p) => p.plataforma).filter(Boolean)).size;
+    }
 
-      container.innerHTML = produtos.map((p) => `
-        <div class="card">
+    function filtrarProdutos(lista) {
+      if (filtroAtual === "todos") return lista;
+      return lista.filter((p) => p.plataforma === filtroAtual);
+    }
+
+    function produtoValido(p) {
+      return p && p.produto && valorNumerico(p.preco_por) !== null;
+    }
+
+    function criarCard(p) {
+      const nome = escapeHtml(p.produto || "Oferta");
+      const imagem = escapeHtml(p.link_imagem || IMG_FALLBACK);
+      const link = p.link_afiliado ? escapeHtml(p.link_afiliado) : "#";
+      const desconto = descontoValido(p.desconto);
+      const badgeRecente = ehRecente(p.data_publicacao)
+        ? `<span class="badge-recente">🕒 ${tempoRelativo(p.data_publicacao)}</span>`
+        : "";
+      const precoDe = temPrecoDe(p)
+        ? `<div class="preco-de">De: <span>${moeda(p.preco_de)}</span></div>`
+        : "";
+      const botaoClass = p.link_afiliado ? "btn" : "btn disabled";
+      const botaoTexto = p.link_afiliado ? "Ver oferta" : "Link indisponível";
+
+      return `
+        <article class="card">
           <div class="img-wrap">
-            <span class="badge-plataforma">${nomePlataforma(p.plataforma)}</span>
-            ${p.desconto ? `<span class="badge-desconto">${Math.round(Number(p.desconto))}% OFF</span>` : ""}
-            <img src="${p.link_imagem || ""}" alt="${p.produto || ""}">
+            <span class="badge-plataforma">${escapeHtml(nomePlataforma(p.plataforma))}</span>
+            ${desconto ? `<span class="badge-desconto">${desconto}% OFF</span>` : ""}
+            ${badgeRecente}
+            <img src="${imagem}" alt="${nome}" loading="lazy" onerror="this.onerror=null;this.src='${IMG_FALLBACK}'">
           </div>
 
           <div class="content">
-            <div class="title">${p.produto || ""}</div>
-            <div class="preco-de">De: <span>${moeda(p.preco_de)}</span></div>
-            <div class="preco-por">Por: ${moeda(p.preco_por)}</div>
-            <a class="btn" href="${p.link_afiliado || "#"}" target="_blank" rel="noopener noreferrer">Ver oferta</a>
+            <div class="title">${nome}</div>
+            <div class="meta-row">
+              <span class="meta-pill">${escapeHtml(nomePlataforma(p.plataforma))}</span>
+              <span class="meta-pill">${escapeHtml(dataFormatada(p.data_publicacao))}</span>
+            </div>
+            <div class="precos">
+              ${precoDe}
+              <div class="preco-por">Por: ${moeda(p.preco_por)}</div>
+            </div>
+            <a class="${botaoClass}" href="${link}" target="_blank" rel="noopener noreferrer">${botaoTexto}</a>
           </div>
-        </div>
-      `).join("");
+        </article>
+      `;
+    }
+
+    function renderizar() {
+      const lista = filtrarProdutos(todosProdutos).filter(produtoValido);
+      const destaques = lista.slice(0, LIMITE_DESTAQUES);
+      const restantes = lista.slice(LIMITE_DESTAQUES);
+
+      const destaquesEl = document.getElementById("destaques");
+      const produtosEl = document.getElementById("produtos");
+      const descricaoLista = document.getElementById("descricao-lista");
+
+      document.getElementById("total-produtos").textContent = String(lista.length);
+      document.getElementById("total-destaques").textContent = String(destaques.length);
+      document.getElementById("plataformas-ativas").textContent = String(plataformaAtiva(lista));
+      document.getElementById("status-catalogo").textContent = lista.length
+        ? `${lista.length} oferta(s) ativa(s) no filtro atual.`
+        : "Nenhuma oferta encontrada no filtro atual.";
+
+      if (lista.length) {
+        const ultimaData = lista.find((p) => p.data_publicacao)?.data_publicacao;
+        document.getElementById("ultima-atualizacao").textContent = ultimaData
+          ? `${dataFormatada(ultimaData)} (${tempoRelativo(ultimaData)})`
+          : "Sem data disponível";
+      } else {
+        document.getElementById("ultima-atualizacao").textContent = "Sem dados disponíveis";
+      }
+
+      descricaoLista.textContent = filtroAtual === "todos"
+        ? "Lista completa das ofertas ativas."
+        : `Exibindo apenas ofertas de ${nomePlataforma(filtroAtual)}.`;
+
+      destaquesEl.innerHTML = destaques.length
+        ? destaques.map(criarCard).join("")
+        : `<div class="vazio">Nenhum destaque disponível para este filtro.</div>`;
+
+      produtosEl.innerHTML = restantes.length
+        ? restantes.map(criarCard).join("")
+        : `<div class="vazio">Nenhuma outra oferta encontrada para este filtro.</div>`;
     }
 
     async function carregarProdutos() {
       const mensagem = document.getElementById("mensagem");
+      mensagem.innerHTML = "";
 
       try {
         const res = await fetch(
-          `${SUPABASE_URL}/rest/v1/produtos?select=*&ativo=eq.true&order=data_publicacao.desc&limit=120`,
+          `${SUPABASE_URL}/rest/v1/produtos?select=*&ativo=eq.true&order=data_publicacao.desc&limit=${LIMITE_TOTAL}`,
           {
             headers: {
               apikey: SUPABASE_ANON_KEY,
@@ -322,15 +793,15 @@
           }
         );
 
-        if (!res.ok) {
-          throw new Error(`Erro ${res.status}`);
-        }
+        if (!res.ok) throw new Error(`Erro ${res.status}`);
 
-        todosProdutos = await res.json();
-        renderizar(todosProdutos);
-
+        const dados = await res.json();
+        todosProdutos = Array.isArray(dados) ? dados.filter(produtoValido) : [];
+        renderizar();
       } catch (e) {
-        mensagem.innerHTML = `<div class="alerta">Erro ao carregar produtos: ${e.message}</div>`;
+        mensagem.innerHTML = `<div class="alerta">Erro ao carregar produtos: ${escapeHtml(e.message)}</div>`;
+        document.getElementById("status-catalogo").textContent = "Falha ao carregar catálogo.";
+        document.getElementById("ultima-atualizacao").textContent = "Não foi possível obter os dados.";
       }
     }
 
@@ -338,14 +809,8 @@
       btn.addEventListener("click", () => {
         document.querySelectorAll(".filtro-btn").forEach((b) => b.classList.remove("ativo"));
         btn.classList.add("ativo");
-
-        const plataforma = btn.dataset.plataforma;
-
-        if (plataforma === "todos") {
-          renderizar(todosProdutos);
-        } else {
-          renderizar(todosProdutos.filter((p) => p.plataforma === plataforma));
-        }
+        filtroAtual = btn.dataset.plataforma;
+        renderizar();
       });
     });
 
