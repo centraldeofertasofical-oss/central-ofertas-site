@@ -1,821 +1,271 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Central de Ofertas</title>
-  <style>
-    * { box-sizing: border-box; }
-
-    :root {
-      --bg: #f6f7fb;
-      --surface: #ffffff;
-      --surface-2: #f9fafb;
-      --text: #111827;
-      --muted: #6b7280;
-      --line: #e5e7eb;
-      --line-soft: #edf0f5;
-      --brand: #ff6a00;
-      --brand-dark: #e85e00;
-      --success: #16a34a;
-      --danger-bg: #fff3f3;
-      --danger-line: #fecaca;
-      --danger-text: #b91c1c;
-      --shadow: 0 8px 24px rgba(0,0,0,0.08);
-      --whatsapp: #25D366;
-      --whatsapp-dark: #1fb657;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-    }
-
-    a { color: inherit; }
-
-    header {
-      background: linear-gradient(135deg, #ffcc00, #ffdb4d);
-      color: var(--text);
-      padding: 22px 20px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-      border-bottom: 1px solid rgba(0,0,0,0.08);
-    }
-
-    .header-wrap,
-    .hero,
-    .topbar,
-    .socials-wrap,
-    .grupo-cta-wrap,
-    .filtros,
-    main,
-    footer {
-      max-width: 1280px;
-      margin-left: auto;
-      margin-right: auto;
-      padding-left: 20px;
-      padding-right: 20px;
-    }
-
-    .header-wrap {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      flex-wrap: wrap;
-    }
-
-    .logo {
-      width: 78px;
-      height: 78px;
-      object-fit: cover;
-      border-radius: 50%;
-      background: white;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-    }
-
-    .brand-text h1 {
-      margin: 0;
-      font-size: 34px;
-      line-height: 1.1;
-    }
-
-    .sub {
-      margin-top: 6px;
-      font-size: 15px;
-      opacity: 0.92;
-    }
-
-    .hero {
-      margin-top: 18px;
-      display: grid;
-      grid-template-columns: 1.3fr .7fr;
-      gap: 16px;
-    }
-
-    .hero-card,
-    .hero-side {
-      background: rgba(255,255,255,0.78);
-      border: 1px solid rgba(17,24,39,0.08);
-      border-radius: 18px;
-      padding: 18px;
-      backdrop-filter: blur(6px);
-    }
-
-    .hero-card h2 {
-      margin: 0 0 8px;
-      font-size: 28px;
-      line-height: 1.15;
-    }
-
-    .hero-card p,
-    .hero-side p {
-      margin: 0;
-      color: #374151;
-      line-height: 1.5;
-    }
-
-    .hero-meta {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 14px;
-    }
-
-    .pill {
-      background: rgba(255,255,255,0.95);
-      border: 1px solid rgba(17,24,39,0.08);
-      border-radius: 999px;
-      padding: 10px 14px;
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .hero-side {
-      display: grid;
-      gap: 12px;
-      align-content: start;
-    }
-
-    .hero-side strong {
-      display: block;
-      font-size: 14px;
-      margin-bottom: 4px;
-    }
-
-    .topbar {
-      margin-top: 20px;
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .chip {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      padding: 10px 14px;
-      border-radius: 999px;
-      font-size: 14px;
-      font-weight: 600;
-      color: #374151;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-    }
-
-    .chip strong { color: var(--text); }
-
-    .grupo-cta-wrap {
-      margin-top: 16px;
-    }
-
-    .grupo-cta {
-      display: block;
-      width: 100%;
-      text-align: center;
-      background: var(--whatsapp);
-      color: white;
-      text-decoration: none;
-      font-weight: 800;
-      font-size: 18px;
-      padding: 16px 18px;
-      border-radius: 14px;
-      box-shadow: 0 8px 20px rgba(37, 211, 102, 0.25);
-      transition: .15s ease;
-    }
-
-    .grupo-cta:hover {
-      background: var(--whatsapp-dark);
-      transform: translateY(-1px);
-    }
-
-    .socials-wrap {
-      margin-top: 14px;
-    }
-
-    .social-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 12px;
-    }
-
-    .social-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      background: var(--surface);
-      color: var(--text);
-      text-decoration: none;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 14px 12px;
-      font-weight: 800;
-      text-align: center;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.05);
-      transition: .15s ease;
-    }
-
-    .social-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 18px rgba(0,0,0,0.08);
-    }
-
-    .filtros {
-      margin-top: 18px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .filtro-btn {
-      border: 1px solid #d1d5db;
-      background: var(--surface);
-      color: var(--text);
-      padding: 10px 16px;
-      border-radius: 999px;
-      cursor: pointer;
-      font-weight: 700;
-      transition: .15s ease;
-    }
-
-    .filtro-btn:hover { transform: translateY(-1px); }
-
-    .filtro-btn.ativo {
-      background: var(--text);
-      color: white;
-      border-color: var(--text);
-    }
-
-    main {
-      margin-top: 24px;
-      padding-bottom: 48px;
-    }
-
-    .alerta {
-      background: var(--danger-bg);
-      color: var(--danger-text);
-      border: 1px solid var(--danger-line);
-      padding: 14px;
-      border-radius: 12px;
-      margin-bottom: 20px;
-    }
-
-    .section-head {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin: 0 0 14px;
-    }
-
-    .section-head h3 {
-      margin: 0;
-      font-size: 24px;
-    }
-
-    .section-head p {
-      margin: 4px 0 0;
-      color: var(--muted);
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 18px;
-    }
-
-    .grid.destaques .card {
-      border: 1px solid rgba(255,106,0,0.18);
-      box-shadow: 0 10px 28px rgba(255,106,0,0.08);
-    }
-
-    .card {
-      background: var(--surface);
-      border-radius: 18px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--line-soft);
-      display: flex;
-      flex-direction: column;
-      transition: transform .15s ease, box-shadow .15s ease;
-      min-height: 100%;
-    }
-
-    .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 28px rgba(0,0,0,0.11);
-    }
-
-    .img-wrap {
-      position: relative;
-      background: var(--surface);
-      padding: 12px;
-      height: 220px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .img-wrap img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-      display: block;
-    }
-
-    .badge-plataforma,
-    .badge-desconto,
-    .badge-recente {
-      position: absolute;
-      font-size: 11px;
-      padding: 6px 8px;
-      border-radius: 999px;
-      font-weight: 700;
-      letter-spacing: .2px;
-    }
-
-    .badge-plataforma {
-      top: 10px;
-      left: 10px;
-      background: rgba(17,24,39,0.88);
-      color: white;
-      text-transform: uppercase;
-    }
-
-    .badge-desconto {
-      top: 10px;
-      right: 10px;
-      background: var(--success);
-      color: white;
-    }
-
-    .badge-recente {
-      bottom: 10px;
-      left: 10px;
-      background: rgba(255,255,255,0.95);
-      color: var(--text);
-      border: 1px solid rgba(17,24,39,0.08);
-    }
-
-    .content {
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      flex: 1;
-    }
-
-    .title {
-      font-size: 15px;
-      line-height: 1.45;
-      font-weight: 700;
-      min-height: 64px;
-    }
-
-    .meta-row {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .meta-pill {
-      background: var(--surface-2);
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 6px 8px;
-    }
-
-    .precos {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .preco-de {
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .preco-de span { text-decoration: line-through; }
-
-    .preco-por {
-      font-size: 25px;
-      font-weight: 800;
-      color: var(--text);
-      line-height: 1.1;
-    }
-
-    .btn {
-      margin-top: auto;
-      display: block;
-      text-align: center;
-      background: var(--brand);
-      color: white;
-      text-decoration: none;
-      padding: 12px 14px;
-      border-radius: 12px;
-      font-weight: 700;
-      transition: background .15s ease, transform .15s ease;
-    }
-
-    .btn:hover { background: var(--brand-dark); transform: translateY(-1px); }
-
-    .btn.disabled {
-      background: #9ca3af;
-      pointer-events: none;
-      cursor: default;
-    }
-
-    .vazio {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      padding: 16px;
-      border-radius: 12px;
-      color: var(--muted);
-    }
-
-    .section-block { margin-bottom: 34px; }
-
-    .divider {
-      height: 1px;
-      background: var(--line);
-      margin: 6px 0 28px;
-    }
-
-    footer {
-      padding-top: 6px;
-      padding-bottom: 36px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .grupo-float {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      z-index: 999;
-      background: var(--whatsapp);
-      color: white;
-      text-decoration: none;
-      font-weight: 800;
-      padding: 14px 18px;
-      border-radius: 999px;
-      box-shadow: 0 10px 24px rgba(0,0,0,0.18);
-      transition: .15s ease;
-    }
-
-    .grupo-float:hover {
-      background: var(--whatsapp-dark);
-      transform: translateY(-1px);
-    }
-
-    @media (max-width: 900px) {
-      .hero { grid-template-columns: 1fr; }
-      .brand-text h1 { font-size: 30px; }
-    }
-
-    @media (max-width: 560px) {
-      header { padding: 18px 14px; }
-      .header-wrap,
-      .hero,
-      .topbar,
-      .grupo-cta-wrap,
-      .socials-wrap,
-      .filtros,
-      main,
-      footer { padding-left: 14px; padding-right: 14px; }
-
-      .brand-text h1 { font-size: 26px; }
-      .hero-card h2 { font-size: 24px; }
-      .img-wrap { height: 200px; }
-      .preco-por { font-size: 22px; }
-      .grupo-cta { font-size: 16px; padding: 14px 16px; }
-      .grupo-float { right: 14px; bottom: 14px; padding: 12px 16px; font-size: 14px; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Central de Ofertas — achados do dia</title>
+<meta name="description" content="Achados de verdade da Amazon, Mercado Livre e Shopee, atualizados ao longo do dia. Toque e compre direto no produto.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%23FFD21E'/%3E%3Cpath d='M6 8h12l-1 12H7L6 8Z' fill='%23171310'/%3E%3Cpath d='M9 8V6.5a3 3 0 0 1 6 0V8' stroke='%23171310' stroke-width='2' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --amarelo:#FFD21E; --amarelo-q:#FFC400; --amarelo-esc:#D99A00;
+    --ink:#171310; --ink-2:#4b433c; --paper:#fff;
+    --bg:#faf8f3; --card:#ffffff; --line:#efe9df; --muted:#98907f; --strike:#bdb4a4;
+    --verde:#0f9d58;
+    --sh-s:0 1px 2px rgba(23,19,16,.05); --sh-m:0 6px 24px -12px rgba(23,19,16,.18);
+    --sh-l:0 20px 48px -24px rgba(23,19,16,.35);
+    --r:20px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:"Manrope",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    line-height:1.45;font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(120% 40% at 100% 0,rgba(255,210,30,.10) 0,rgba(255,210,30,0) 60%)}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 18px}
+  ::selection{background:var(--amarelo);color:var(--ink)}
+
+  /* header */
+  header{position:sticky;top:0;z-index:30;-webkit-backdrop-filter:saturate(1.4) blur(12px);backdrop-filter:saturate(1.4) blur(12px);
+    background:rgba(250,248,243,.82);border-bottom:1px solid var(--line)}
+  .head-top{display:flex;align-items:center;gap:14px;padding:13px 0}
+  .logo{display:flex;align-items:center;gap:11px;flex-shrink:0}
+  .logo .mark{width:42px;height:42px;border-radius:13px;background:var(--ink);display:flex;align-items:center;justify-content:center;
+    box-shadow:0 6px 16px -6px rgba(23,19,16,.5)}
+  .logo .mark svg{width:23px;height:23px}
+  .logo .txt b{font-family:"Fraunces",serif;font-size:19px;font-weight:600;letter-spacing:-.2px;line-height:.95;display:block;color:var(--ink)}
+  .logo .txt span{font-size:9.5px;font-weight:700;letter-spacing:2.4px;color:var(--amarelo-esc);text-transform:uppercase;margin-top:3px;display:block}
+  .search{flex:1;position:relative;min-width:0}
+  .search input{width:100%;border:1px solid var(--line);background:#fff;border-radius:14px;
+    padding:12px 16px 12px 44px;font-family:inherit;font-size:15px;color:var(--ink);outline:none;box-shadow:var(--sh-s);transition:.15s}
+  .search input::placeholder{color:#b7ae9d}
+  .search input:focus{border-color:var(--amarelo);box-shadow:0 0 0 4px rgba(255,210,30,.22)}
+  .search svg{position:absolute;left:15px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:#b0a794}
+  .search .clear{position:absolute;right:8px;top:50%;transform:translateY(-50%);border:0;background:#f0ebe1;color:#8a8070;
+    width:27px;height:27px;border-radius:9px;font-size:14px;cursor:pointer;display:none;align-items:center;justify-content:center}
+
+  /* hero */
+  .hero{padding:26px 0 6px}
+  .hero h1{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(26px,6vw,40px);letter-spacing:-.5px;line-height:1.05;text-wrap:balance}
+  .hero h1 em{font-style:italic;color:var(--amarelo-esc)}
+  .hero .meta{display:flex;flex-wrap:wrap;align-items:center;gap:7px 16px;margin-top:12px;color:var(--muted);font-size:13.5px;font-weight:500}
+  .hero .meta b{color:var(--ink);font-weight:800}
+  .live{display:inline-flex;align-items:center;gap:7px}
+  .live i{width:8px;height:8px;border-radius:50%;background:var(--verde);position:relative}
+  .live i::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--verde);opacity:.35;animation:pulse 2s infinite}
+  @keyframes pulse{0%{transform:scale(.6);opacity:.6}100%{transform:scale(1.5);opacity:0}}
+
+  /* filtros */
+  .filters{display:flex;gap:9px;overflow-x:auto;padding:16px 0 6px;scrollbar-width:none}
+  .filters::-webkit-scrollbar{display:none}
+  .chip{flex-shrink:0;border:1px solid var(--line);background:#fff;color:var(--ink-2);
+    padding:9px 16px;border-radius:12px;font-family:inherit;font-size:13.5px;font-weight:700;cursor:pointer;white-space:nowrap;transition:.14s;box-shadow:var(--sh-s)}
+  .chip:hover{border-color:#e2d9c9;color:var(--ink)}
+  .chip[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .chip.gold[aria-pressed="true"]{background:var(--amarelo);color:var(--ink)}
+
+  h2.sec{font-family:"Fraunces",serif;font-weight:600;font-size:20px;letter-spacing:-.3px;margin:30px 0 15px;display:flex;align-items:center;gap:10px}
+  h2.sec .n{font-family:"Manrope";font-size:12px;font-weight:700;color:var(--muted);background:#fff;border:1px solid var(--line);border-radius:20px;padding:3px 10px}
+
+  /* destaques (scroll horizontal) */
+  .rail{display:flex;gap:14px;overflow-x:auto;padding:2px 0 14px;scroll-snap-type:x mandatory;scrollbar-width:none}
+  .rail::-webkit-scrollbar{display:none}
+  .rail .card{flex:0 0 200px;scroll-snap-align:start}
+
+  /* grid */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(172px,1fr));gap:15px}
+  @media(min-width:640px){.grid{grid-template-columns:repeat(auto-fill,minmax(212px,1fr));gap:20px}}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;
+    display:flex;flex-direction:column;box-shadow:var(--sh-s);transition:transform .18s cubic-bezier(.2,.7,.3,1),box-shadow .18s}
+  .card:hover{transform:translateY(-4px);box-shadow:var(--sh-l)}
+  .thumb{position:relative;aspect-ratio:1;background:linear-gradient(160deg,#fff,#f7f4ee);display:flex;align-items:center;justify-content:center;padding:16px}
+  .thumb img{max-width:100%;max-height:100%;object-fit:contain;mix-blend-mode:multiply;transition:transform .3s}
+  .card:hover .thumb img{transform:scale(1.045)}
+  .badge-plat{position:absolute;top:10px;left:10px;font-size:9.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;
+    background:rgba(255,255,255,.9);color:var(--ink);padding:5px 9px;border-radius:8px;box-shadow:var(--sh-s);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+  .badge-off{position:absolute;top:10px;right:10px;font-size:12.5px;font-weight:800;color:var(--ink);
+    background:var(--amarelo);padding:5px 10px;border-radius:10px;box-shadow:0 6px 14px -5px rgba(217,154,0,.8)}
+  .body{padding:13px 14px 15px;display:flex;flex-direction:column;flex:1}
+  .name{font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.34;min-height:2.7em;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:10px}
+  .cupom{align-self:flex-start;font-size:10.5px;font-weight:800;color:#8a5a00;background:#fff6d8;border:1px dashed var(--amarelo-q);
+    padding:3px 9px;border-radius:7px;margin-bottom:10px;letter-spacing:.2px}
+  .prices{margin-top:auto;display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:12px}
+  .de{font-size:12.5px;color:var(--strike);text-decoration:line-through;font-weight:500}
+  .por{font-size:23px;font-weight:800;color:var(--ink);letter-spacing:-.6px}
+  .buy{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--ink);color:#fff;
+    font-family:inherit;font-weight:700;font-size:14px;padding:12px;border-radius:13px;transition:.15s;letter-spacing:.2px}
+  .buy:hover{background:#000;gap:11px}
+  .buy svg{width:16px;height:16px;transition:.15s}
+
+  .state{grid-column:1/-1;text-align:center;padding:64px 20px;color:var(--muted)}
+  .state .big{font-size:42px;margin-bottom:12px}
+  .skeleton{background:linear-gradient(100deg,#efeae1 30%,#f7f4ee 50%,#efeae1 70%);background-size:200% 100%;
+    animation:sk 1.3s infinite;border-radius:var(--r);aspect-ratio:.72}
+  @keyframes sk{to{background-position:-200% 0}}
+
+  /* footer */
+  footer{margin-top:52px;background:var(--ink);color:#cfc7ba;padding:40px 0 46px;
+    background-image:radial-gradient(120% 60% at 0 0,rgba(255,210,30,.10),transparent 55%)}
+  .foot-cta{display:flex;align-items:center;justify-content:center;gap:9px;text-align:center;background:var(--verde);color:#fff;font-weight:800;font-size:16px;
+    padding:16px;border-radius:15px;margin-bottom:24px;box-shadow:0 12px 30px -14px rgba(15,157,88,.9);transition:.15s}
+  .foot-cta:hover{transform:translateY(-2px)}
+  .socials{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:22px}
+  .socials a{border:1px solid rgba(255,255,255,.14);color:#e9e3d8;padding:10px 16px;border-radius:12px;font-size:13px;font-weight:600;transition:.14s}
+  .socials a:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.25)}
+  .foot-note{text-align:center;font-size:12px;color:#877e6f;line-height:1.75;max-width:560px;margin:0 auto}
+  .foot-note b{color:#e7e0d4}
+</style>
 </head>
 <body>
-  <header>
-    <div class="header-wrap">
-      <img class="logo" src="logo-central-ofertas.JPG" alt="Central de Ofertas">
-      <div class="brand-text">
-        <h1>Central de Ofertas</h1>
-        <div class="sub">Ofertas oficiais e seguras • Shopee • Amazon • Mercado Livre</div>
+<header>
+  <div class="wrap">
+    <div class="head-top">
+      <a class="logo" href="/">
+        <span class="mark"><svg viewBox="0 0 24 24" fill="none"><path d="M6 8h12l-1 12H7L6 8Z" fill="#FFD21E"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8" stroke="#FFD21E" stroke-width="2" stroke-linecap="round"/><path d="M9.6 14.2l1.8 1.8 3.4-3.6" stroke="#171310" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="txt"><b>Central de Ofertas</b><span>oficiais e seguras</span></span>
+      </a>
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input id="q" type="search" placeholder="Buscar produto..." autocomplete="off" enterkeyhint="search">
+        <button class="clear" id="clear" aria-label="Limpar">✕</button>
       </div>
     </div>
+  </div>
+</header>
 
-    <div class="hero">
-      <div class="hero-card">
-        <h2>Achados atualizados automaticamente ao longo do dia</h2>
-        <p>Mostramos apenas ofertas ativas no banco, com destaque para as mais recentes. Itens antigos saem da vitrine automática para o site ficar sempre limpo, rápido e relevante.</p>
-        <div class="hero-meta">
-          <div class="pill">⚡ Atualização automática</div>
-          <div class="pill">🛒 Ofertas do dia</div>
-          <div class="pill">💸 Preços em destaque</div>
-        </div>
-      </div>
-      <div class="hero-side">
-        <div>
-          <strong>Status do catálogo</strong>
-          <p id="status-catalogo">Carregando ofertas...</p>
-        </div>
-        <div>
-          <strong>Última atualização visível</strong>
-          <p id="ultima-atualizacao">Aguardando dados...</p>
-        </div>
-      </div>
+<main class="wrap">
+  <section class="hero">
+    <h1>Os <em>achados</em> do dia, sempre frescos.</h1>
+    <div class="meta">
+      <span class="live"><i></i> <b id="count">…</b>&nbsp;ofertas ativas</span>
+      <span>atualizado <b id="updated">agora</b></span>
+      <span>Amazon · Mercado Livre · Shopee</span>
     </div>
-  </header>
+  </section>
 
-  <div class="topbar">
-    <div class="chip">📦 <strong id="total-produtos">0</strong> ofertas ativas</div>
-    <div class="chip">🔥 <strong id="total-destaques">0</strong> destaques recentes</div>
-    <div class="chip">🏪 <strong id="plataformas-ativas">0</strong> plataformas com ofertas</div>
+  <div class="filters" id="filters">
+    <button class="chip" data-plat="todos" aria-pressed="true">Todos</button>
+    <button class="chip gold" data-plat="_desc" aria-pressed="false">🔥 Maiores descontos</button>
+    <button class="chip" data-plat="amazon" aria-pressed="false">Amazon</button>
+    <button class="chip" data-plat="mercado" aria-pressed="false">Mercado Livre</button>
+    <button class="chip" data-plat="shopee" aria-pressed="false">Shopee</button>
+    <button class="chip" data-plat="_cupom" aria-pressed="false">🎟️ Com cupom</button>
   </div>
 
-  <div class="grupo-cta-wrap">
-    <a
-      class="grupo-cta"
-      href="https://chat.whatsapp.com/K7y2RlgUuAc0Xepn0qHYBD?mode=gi_t"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      🔥 Entrar no Grupo de Ofertas no WhatsApp
-    </a>
-  </div>
+  <section id="destaques-wrap">
+    <h2 class="sec">🔥 Destaques <span class="n" id="dcount"></span></h2>
+    <div class="rail" id="destaques"></div>
+  </section>
 
-  <div class="socials-wrap">
-    <div class="social-grid">
-      <a class="social-btn" href="https://www.instagram.com/centraldeofertas.ofc?igsh=YzNtODMzb3R0eHo5&utm_source=qr" target="_blank" rel="noopener noreferrer">📸 Instagram</a>
-      <a class="social-btn" href="https://www.tiktok.com/@centraldeofertas.oficial?_r=1&_t=ZS-94sdmo91NzT" target="_blank" rel="noopener noreferrer">🎵 TikTok</a>
-      <a class="social-btn" href="https://br.pinterest.com/centraldeofertasofc/" target="_blank" rel="noopener noreferrer">📌 Pinterest</a>
-      <a class="social-btn" href="https://collshp.com/centraldeofertasoficial657?view=storefront" target="_blank" rel="noopener noreferrer">🛍️ Loja</a>
-      <a class="social-btn" href="https://mercadolivre.com/sec/2WuTJob" target="_blank" rel="noopener noreferrer">🟨 Mercado Livre</a>
-      <a class="social-btn" href="https://chat.whatsapp.com/K7y2RlgUuAc0Xepn0qHYBD?mode=gi_t" target="_blank" rel="noopener noreferrer">💬 WhatsApp</a>
-    </div>
-  </div>
-
-  <div class="filtros">
-    <button class="filtro-btn ativo" data-plataforma="todos">Todos</button>
-    <button class="filtro-btn" data-plataforma="shopee">Shopee</button>
-    <button class="filtro-btn" data-plataforma="amazon">Amazon</button>
-    <button class="filtro-btn" data-plataforma="mercado_livre">Mercado Livre</button>
-  </div>
-
-  <main>
-    <div id="mensagem"></div>
-
-    <section class="section-block">
-      <div class="section-head">
-        <div>
-          <h3>🔥 Destaques</h3>
-          <p>As ofertas mais novas do catálogo ativo.</p>
-        </div>
-      </div>
-      <div id="destaques" class="grid destaques"></div>
-    </section>
-
-    <div class="divider"></div>
-
-    <section class="section-block">
-      <div class="section-head">
-        <div>
-          <h3>🛍️ Últimas ofertas</h3>
-          <p id="descricao-lista">Lista completa das ofertas ativas.</p>
-        </div>
-      </div>
-      <div id="produtos" class="grid"></div>
-    </section>
-  </main>
+  <h2 class="sec" id="sectitle-wrap"><span id="sectitle">Todas as ofertas</span> <span class="n" id="gcount"></span></h2>
+  <div class="grid" id="grid"></div>
+</main>
 
 <footer>
-  Central de Ofertas •
-  <a href="/privacy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+  <div class="wrap">
+    <a class="foot-cta" href="https://chat.whatsapp.com/K7y2RlgUuAc0Xepn0qHYBD" target="_blank" rel="noopener">📲 Entrar no Grupo de Ofertas no WhatsApp</a>
+    <div class="socials">
+      <a href="https://www.instagram.com/centraldeofertas.ofc" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://br.pinterest.com/centraldeofertasofc/" target="_blank" rel="noopener">Pinterest</a>
+      <a href="https://collshp.com/centraldeofertasoficial657" target="_blank" rel="noopener">Loja</a>
+      <a href="https://mercadolivre.com/sec/2WuTJob" target="_blank" rel="noopener">Mercado Livre</a>
+    </div>
+    <p class="foot-note">Somos afiliados — podemos ganhar comissão nas compras, <b>sem custo a mais pra você</b>. Preços e disponibilidade mudam a qualquer momento no site da loja.</p>
+  </div>
 </footer>
 
-  <a
-    class="grupo-float"
-    href="https://chat.whatsapp.com/K7y2RlgUuAc0Xepn0qHYBD?mode=gi_t"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    📲 Entrar no Grupo
-  </a>
+<script>
+  const SUPABASE_URL = "https://zqkcsucactezbampkbps.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_WVQdo69bguY3Bb55NP4sJA_le7IVszi";
+  const LIMITE = 500;
+  const PH = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' fill='%23f4f1ea'/%3E%3C/svg%3E";
 
-  <script>
-    const SUPABASE_URL = "https://zqkcsucactezbampkbps.supabase.co";
-    const SUPABASE_ANON_KEY = "sb_publishable_WVQdo69bguY3Bb55NP4sJA_le7IVszi";
-    const LIMITE_TOTAL = 120;
-    const LIMITE_DESTAQUES = 6;
-    const IMG_FALLBACK = "https://placehold.co/600x600/f6f7fb/6b7280?text=Sem+imagem";
+  const grid = document.getElementById('grid');
+  const rail = document.getElementById('destaques');
+  const destWrap = document.getElementById('destaques-wrap');
+  const secWrap = document.getElementById('sectitle-wrap');
+  const q = document.getElementById('q');
+  const clearBtn = document.getElementById('clear');
+  const filters = document.getElementById('filters');
+  let TODOS = [], filtro = 'todos', busca = '';
 
-    let todosProdutos = [];
-    let filtroAtual = "todos";
+  const brl = n => (n==null||n==='')?'':Number(n).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+  const PLAT = {amazon:'Amazon', ml:'Mercado Livre', mercado_livre:'Mercado Livre', 'mercado livre':'Mercado Livre', mercadolivre:'Mercado Livre', shopee:'Shopee'};
+  const platLabel = p => PLAT[String(p||'').toLowerCase()] || (p ? String(p).replace(/_/g,' ') : 'Oferta');
+  const esc = s => String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const parseTS = s => new Date(/[zZ]|[+\-]\d\d:?\d\d$/.test(String(s||'')) ? s : s + 'Z');
+  const horaBR = d => d.toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
 
-    function nomePlataforma(p) {
-      if (p === "mercado_livre") return "Mercado Livre";
-      if (p === "amazon") return "Amazon";
-      if (p === "shopee") return "Shopee";
-      return p || "Oferta";
+  // "De" confiável: existe, é maior que o Por, e NÃO é absurdo (erro de scraping = 20x+)
+  const deOk = o => { const de=Number(o.preco_de), por=Number(o.preco_por); return de>0&&por>0&&de>por&&de<=por*5; };
+  function descNum(o){
+    if(o.desconto!=null && o.desconto!=='') { const d=parseInt(String(o.desconto).replace(/\D/g,'')); if(d>0 && d<=80) return d; }
+    if(deOk(o)){ const de=Number(o.preco_de), por=Number(o.preco_por); const p=Math.round((de-por)/de*100); if(p>0 && p<=80) return p; }
+    return 0;
+  }
+  function cardHTML(o){
+    const d=descNum(o), de=Number(o.preco_de), por=Number(o.preco_por), temDe=deOk(o);
+    return `<a class="card" href="${esc(o.link_afiliado||'#')}" target="_blank" rel="sponsored noopener">
+      <div class="thumb">
+        <span class="badge-plat">${esc(platLabel(o.plataforma))}</span>
+        ${d>0?`<span class="badge-off">-${d}%</span>`:''}
+        <img loading="lazy" referrerpolicy="no-referrer" src="${esc(o.link_imagem||PH)}" alt="${esc(o.produto||'')}" onerror="this.onerror=null;this.src='${PH}'">
+      </div>
+      <div class="body">
+        <div class="name">${esc(o.produto||'')}</div>
+        ${o.cupom?`<span class="cupom">🎟️ cupom ${esc(o.cupom)}</span>`:''}
+        <div class="prices">${temDe?`<span class="de">${brl(de)}</span>`:''}<span class="por">${por>0?brl(por):'ver preço'}</span></div>
+        <span class="buy">COMPRAR <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </div>
+    </a>`;
+  }
+  function aplica(){
+    let lista = TODOS.slice();
+    const especial = filtro==='_desc'||filtro==='_cupom';
+    if(filtro==='_cupom') lista = lista.filter(o=>o.cupom && String(o.cupom).trim());
+    else if(!especial && filtro!=='todos') lista = lista.filter(o=>String(o.plataforma||'').toLowerCase().includes(filtro));
+    if(busca){ const b=busca.toLowerCase(); lista = lista.filter(o=>String(o.produto||'').toLowerCase().includes(b)); }
+    if(filtro==='_desc') lista.sort((a,b)=>descNum(b)-descNum(a));
+
+    // destaques só aparecem no estado "limpo" (Todos, sem busca)
+    const limpo = filtro==='todos' && !busca;
+    destWrap.style.display = limpo ? '' : 'none';
+    if(limpo){
+      const top = TODOS.filter(o=>descNum(o)>=20).sort((a,b)=>descNum(b)-descNum(a)).slice(0,12);
+      rail.innerHTML = top.map(cardHTML).join('');
+      document.getElementById('dcount').textContent = top.length;
     }
+    document.getElementById('sectitle').textContent = busca?`Resultados de "${busca}"`:(filtro==='_desc'?'Maiores descontos':filtro==='_cupom'?'Ofertas com cupom':filtro==='todos'?'Todas as ofertas':platLabel(filtro));
+    document.getElementById('gcount').textContent = lista.length;
+    grid.innerHTML = lista.length ? lista.map(cardHTML).join('') : `<div class="state"><div class="big">🔍</div>Nenhuma oferta encontrada.<br>Tenta outra busca ou filtro.</div>`;
+  }
 
-    function moeda(v) {
-      if (v === null || v === undefined || v === "") return "-";
-      const n = Number(v);
-      if (!Number.isFinite(n)) return "-";
-      return n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+  filters.addEventListener('click', e=>{ const b=e.target.closest('.chip'); if(!b)return;
+    [...filters.children].forEach(c=>c.setAttribute('aria-pressed',c===b)); filtro=b.dataset.plat; aplica(); window.scrollTo({top:0,behavior:'smooth'}); });
+  q.addEventListener('input', ()=>{ busca=q.value.trim(); clearBtn.style.display=busca?'flex':'none'; aplica(); });
+  clearBtn.addEventListener('click', ()=>{ q.value=''; busca=''; clearBtn.style.display='none'; aplica(); q.focus(); });
+
+  (async function carregar(){
+    grid.innerHTML = Array.from({length:10},()=>'<div class="skeleton"></div>').join('');
+    destWrap.style.display='none';
+    try{
+      const url = `${SUPABASE_URL}/rest/v1/produtos?select=*&ativo=eq.true&order=data_publicacao.desc&limit=${LIMITE}`;
+      const r = await fetch(url,{headers:{apikey:SUPABASE_ANON_KEY,Authorization:'Bearer '+SUPABASE_ANON_KEY}});
+      TODOS = await r.json(); if(!Array.isArray(TODOS)) TODOS=[];
+      document.getElementById('count').textContent = TODOS.length;
+      const ult = TODOS[0]&&TODOS[0].data_publicacao ? parseTS(TODOS[0].data_publicacao) : null;
+      if(ult) document.getElementById('updated').textContent = horaBR(ult);
+      aplica();
+    }catch(e){
+      destWrap.style.display='none';
+      grid.innerHTML = `<div class="state"><div class="big">⚠️</div>Não consegui carregar as ofertas agora.<br>Tenta atualizar a página.</div>`;
     }
-
-    function escapeHtml(value) {
-      return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#39;");
-    }
-
-    function valorNumerico(v) {
-      const n = Number(v);
-      return Number.isFinite(n) ? n : null;
-    }
-
-    function descontoValido(v) {
-      const n = valorNumerico(v);
-      return n !== null && n > 0 ? Math.round(n) : null;
-    }
-
-    function temPrecoDe(produto) {
-      const de = valorNumerico(produto.preco_de);
-      const por = valorNumerico(produto.preco_por);
-      return de !== null && por !== null && de > por;
-    }
-
-    function dataSegura(v) {
-      if (!v) return null;
-      const d = new Date(v);
-      return Number.isNaN(d.getTime()) ? null : d;
-    }
-
-    function ehRecente(v) {
-      const d = dataSegura(v);
-      if (!d) return false;
-      return Date.now() - d.getTime() <= 24 * 60 * 60 * 1000;
-    }
-
-    function dataFormatada(v) {
-      const d = dataSegura(v);
-      if (!d) return "Sem data";
-      return d.toLocaleString("pt-BR", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit"
-      });
-    }
-
-    function tempoRelativo(v) {
-      const d = dataSegura(v);
-      if (!d) return "Sem data";
-      const diffMin = Math.max(1, Math.round((Date.now() - d.getTime()) / 60000));
-      if (diffMin < 60) return `há ${diffMin} min`;
-      const diffH = Math.round(diffMin / 60);
-      if (diffH < 24) return `há ${diffH} h`;
-      const diffD = Math.round(diffH / 24);
-      return `há ${diffD} dia${diffD > 1 ? "s" : ""}`;
-    }
-
-    function plataformaAtiva(lista) {
-      return new Set(lista.map((p) => p.plataforma).filter(Boolean)).size;
-    }
-
-    function filtrarProdutos(lista) {
-      if (filtroAtual === "todos") return lista;
-      return lista.filter((p) => p.plataforma === filtroAtual);
-    }
-
-    function produtoValido(p) {
-      return p && p.produto && valorNumerico(p.preco_por) !== null;
-    }
-
-    function criarCard(p) {
-      const nome = escapeHtml(p.produto || "Oferta");
-      const imagem = escapeHtml(p.link_imagem || IMG_FALLBACK);
-      const link = p.link_afiliado ? escapeHtml(p.link_afiliado) : "#";
-      const desconto = descontoValido(p.desconto);
-      const badgeRecente = ehRecente(p.data_publicacao)
-        ? `<span class="badge-recente">🕒 ${tempoRelativo(p.data_publicacao)}</span>`
-        : "";
-      const precoDe = temPrecoDe(p)
-        ? `<div class="preco-de">De: <span>${moeda(p.preco_de)}</span></div>`
-        : "";
-      const botaoClass = p.link_afiliado ? "btn" : "btn disabled";
-      const botaoTexto = p.link_afiliado ? "Ver oferta" : "Link indisponível";
-
-      return `
-        <article class="card">
-          <div class="img-wrap">
-            <span class="badge-plataforma">${escapeHtml(nomePlataforma(p.plataforma))}</span>
-            ${desconto ? `<span class="badge-desconto">${desconto}% OFF</span>` : ""}
-            ${badgeRecente}
-            <img src="${imagem}" alt="${nome}" loading="lazy" onerror="this.onerror=null;this.src='${IMG_FALLBACK}'">
-          </div>
-
-          <div class="content">
-            <div class="title">${nome}</div>
-            <div class="meta-row">
-              <span class="meta-pill">${escapeHtml(nomePlataforma(p.plataforma))}</span>
-              <span class="meta-pill">${escapeHtml(dataFormatada(p.data_publicacao))}</span>
-            </div>
-            <div class="precos">
-              ${precoDe}
-              <div class="preco-por">Por: ${moeda(p.preco_por)}</div>
-            </div>
-            <a class="${botaoClass}" href="${link}" target="_blank" rel="noopener noreferrer">${botaoTexto}</a>
-          </div>
-        </article>
-      `;
-    }
-
-    function renderizar() {
-      const lista = filtrarProdutos(todosProdutos).filter(produtoValido);
-      const destaques = lista.slice(0, LIMITE_DESTAQUES);
-      const restantes = lista.slice(LIMITE_DESTAQUES);
-
-      const destaquesEl = document.getElementById("destaques");
-      const produtosEl = document.getElementById("produtos");
-      const descricaoLista = document.getElementById("descricao-lista");
-
-      document.getElementById("total-produtos").textContent = String(lista.length);
-      document.getElementById("total-destaques").textContent = String(destaques.length);
-      document.getElementById("plataformas-ativas").textContent = String(plataformaAtiva(lista));
-      document.getElementById("status-catalogo").textContent = lista.length
-        ? `${lista.length} oferta(s) ativa(s) no filtro atual.`
-        : "Nenhuma oferta encontrada no filtro atual.";
-
-      if (lista.length) {
-        const ultimaData = lista.find((p) => p.data_publicacao)?.data_publicacao;
-        document.getElementById("ultima-atualizacao").textContent = ultimaData
-          ? `${dataFormatada(ultimaData)} (${tempoRelativo(ultimaData)})`
-          : "Sem data disponível";
-      } else {
-        document.getElementById("ultima-atualizacao").textContent = "Sem dados disponíveis";
-      }
-
-      descricaoLista.textContent = filtroAtual === "todos"
-        ? "Lista completa das ofertas ativas."
-        : `Exibindo apenas ofertas de ${nomePlataforma(filtroAtual)}.`;
-
-      destaquesEl.innerHTML = destaques.length
-        ? destaques.map(criarCard).join("")
-        : `<div class="vazio">Nenhum destaque disponível para este filtro.</div>`;
-
-      produtosEl.innerHTML = restantes.length
-        ? restantes.map(criarCard).join("")
-        : `<div class="vazio">Nenhuma outra oferta encontrada para este filtro.</div>`;
-    }
-
-    async function carregarProdutos() {
-      const mensagem = document.getElementById("mensagem");
-      mensagem.innerHTML = "";
-
-      try {
-        const res = await fetch(
-          `${SUPABASE_URL}/rest/v1/produtos?select=*&ativo=eq.true&order=data_publicacao.desc&limit=${LIMITE_TOTAL}`,
-          {
-            headers: {
-              apikey: SUPABASE_ANON_KEY,
-              Authorization: `Bearer ${SUPABASE_ANON_KEY}`
-            }
-          }
-        );
-
-        if (!res.ok) throw new Error(`Erro ${res.status}`);
-
-        const dados = await res.json();
-        todosProdutos = Array.isArray(dados) ? dados.filter(produtoValido) : [];
-        renderizar();
-      } catch (e) {
-        mensagem.innerHTML = `<div class="alerta">Erro ao carregar produtos: ${escapeHtml(e.message)}</div>`;
-        document.getElementById("status-catalogo").textContent = "Falha ao carregar catálogo.";
-        document.getElementById("ultima-atualizacao").textContent = "Não foi possível obter os dados.";
-      }
-    }
-
-    document.querySelectorAll(".filtro-btn").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll(".filtro-btn").forEach((b) => b.classList.remove("ativo"));
-        btn.classList.add("ativo");
-        filtroAtual = btn.dataset.plataforma;
-        renderizar();
-      });
-    });
-
-    carregarProdutos();
-  </script>
+  })();
+</script>
 </body>
 </html>
