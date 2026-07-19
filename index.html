@@ -71,9 +71,17 @@
   h2.sec .n{font-family:"Manrope";font-size:12px;font-weight:700;color:var(--muted);background:#fff;border:1px solid var(--line);border-radius:20px;padding:3px 10px}
 
   /* destaques (scroll horizontal) */
-  .rail{display:flex;gap:14px;overflow-x:auto;padding:2px 0 14px;scroll-snap-type:x mandatory;scrollbar-width:none}
+  .rail-box{position:relative}
+  .rail{display:flex;align-items:flex-start;gap:14px;overflow-x:auto;padding:2px 2px 14px;scroll-snap-type:x mandatory;scrollbar-width:none;scroll-behavior:smooth}
   .rail::-webkit-scrollbar{display:none}
   .rail .card{flex:0 0 200px;scroll-snap-align:start}
+  .rail-nav{position:absolute;top:38%;transform:translateY(-50%);z-index:6;width:42px;height:42px;border-radius:50%;
+    border:1px solid var(--line);background:rgba(255,255,255,.96);color:var(--ink);font-size:26px;font-weight:700;line-height:0;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;box-shadow:var(--sh-m);transition:.15s;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+  .rail-nav:hover{background:#fff;transform:translateY(-50%) scale(1.08)}
+  .rail-nav.prev{left:-8px} .rail-nav.next{right:-8px}
+  .rail-nav[disabled]{opacity:0;pointer-events:none}
+  @media(max-width:640px){.rail-nav{width:36px;height:36px;font-size:22px}.rail-nav.prev{left:0}.rail-nav.next{right:0}}
 
   /* grid */
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(172px,1fr));gap:15px}
@@ -159,7 +167,11 @@
 
   <section id="destaques-wrap">
     <h2 class="sec">🔥 Destaques <span class="n" id="dcount"></span></h2>
-    <div class="rail" id="destaques"></div>
+    <div class="rail-box">
+      <button class="rail-nav prev" id="dprev" type="button" aria-label="Ofertas anteriores">‹</button>
+      <div class="rail" id="destaques"></div>
+      <button class="rail-nav next" id="dnext" type="button" aria-label="Próximas ofertas">›</button>
+    </div>
   </section>
 
   <h2 class="sec" id="sectitle-wrap"><span id="sectitle">Todas as ofertas</span> <span class="n" id="gcount"></span></h2>
@@ -236,9 +248,12 @@
     const limpo = filtro==='todos' && !busca;
     destWrap.style.display = limpo ? '' : 'none';
     if(limpo){
-      const top = TODOS.filter(o=>descNum(o)>=20).sort((a,b)=>descNum(b)-descNum(a)).slice(0,12);
+      // destaques = desconto CRÍVEL (25-65%), pra vitrine não puxar os "De" inflados
+      const top = TODOS.filter(o=>{const d=descNum(o); return d>=25 && d<=65;}).sort((a,b)=>descNum(b)-descNum(a)).slice(0,15);
       rail.innerHTML = top.map(cardHTML).join('');
       document.getElementById('dcount').textContent = top.length;
+      rail.scrollLeft = 0;
+      updateRailNav();
     }
     document.getElementById('sectitle').textContent = busca?`Resultados de "${busca}"`:(filtro==='_desc'?'Maiores descontos':filtro==='_cupom'?'Ofertas com cupom':filtro==='todos'?'Todas as ofertas':platLabel(filtro));
     document.getElementById('gcount').textContent = lista.length;
@@ -249,6 +264,14 @@
     [...filters.children].forEach(c=>c.setAttribute('aria-pressed',c===b)); filtro=b.dataset.plat; aplica(); window.scrollTo({top:0,behavior:'smooth'}); });
   q.addEventListener('input', ()=>{ busca=q.value.trim(); clearBtn.style.display=busca?'flex':'none'; aplica(); });
   clearBtn.addEventListener('click', ()=>{ q.value=''; busca=''; clearBtn.style.display='none'; aplica(); q.focus(); });
+
+  // setas do carrossel de destaques
+  const dprev=document.getElementById('dprev'), dnext=document.getElementById('dnext');
+  function updateRailNav(){ if(!rail||!dprev) return; const max=rail.scrollWidth-rail.clientWidth-4; dprev.disabled=rail.scrollLeft<=4; dnext.disabled=rail.scrollLeft>=max; }
+  dprev.addEventListener('click', ()=>rail.scrollBy({left:-rail.clientWidth*0.82,behavior:'smooth'}));
+  dnext.addEventListener('click', ()=>rail.scrollBy({left:rail.clientWidth*0.82,behavior:'smooth'}));
+  rail.addEventListener('scroll', updateRailNav);
+  window.addEventListener('resize', updateRailNav);
 
   (async function carregar(){
     grid.innerHTML = Array.from({length:10},()=>'<div class="skeleton"></div>').join('');
